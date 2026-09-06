@@ -102,7 +102,7 @@ export function useGuardedSession(): GuardState {
         setProfile(null);
         setCompany(null);
         setResolved(true);
-        router.replace("/");
+        router.replace("/kirish");
         return;
       }
       const nextProfile = await loadProfile(next.user.id);
@@ -143,7 +143,7 @@ export function useGuardedSession(): GuardState {
 
   const signOut = useCallback(async () => {
     if (supabaseConfigured) await getSupabase().auth.signOut();
-    router.replace("/");
+    router.replace("/kirish");
   }, [router]);
 
   const value = useMemo<SessionValue | null>(() => {

@@ -100,3 +100,43 @@ tailwind-merge sees no conflict between a variant and a bare utility.
 left to right over about half a second; SPIN bars grow from zero; the total
 score counts up. That is all of it, and `prefers-reduced-motion` turns each one
 off.
+
+## Deploying to Vercel
+
+The build is clean and the app runs on Vercel unchanged, but three things have
+to be set up outside the repository or it will look broken.
+
+**1. Environment variables.** `.env.local` is gitignored, so a fresh deploy has
+none. In Vercel → Settings → Environment Variables, add all four from
+[`.env.local.example`](.env.local.example). Without them every screen renders
+the "could not reach the data" notice. `NEXT_PUBLIC_API_AUTH` must stay `0`:
+the processing service replies `Access-Control-Allow-Headers: content-type`,
+so a browser preflight carrying `Authorization` would be refused and every
+upload would fail.
+
+**2. Supabase auth URLs.** Authentication → URL Configuration: set the Site URL
+to the deployed origin and add it to Redirect URLs. Otherwise the confirmation
+link in every sign-up email still points at localhost, and nobody can finish
+registering.
+
+**3. The database.** A new Supabase project has none of this. Run
+[`supabase/schema.sql`](supabase/schema.sql) then
+[`supabase/api-keys.sql`](supabase/api-keys.sql).
+
+### One platform limit worth knowing
+
+Serverless functions cap the request body at 4.5 MB, and the platform rejects
+the request before any of this code runs. That affects exactly one path:
+`POST /api/v1/calls`, the endpoint customers call with an API key, because it
+proxies the audio.
+
+It proxies deliberately. The processing service trusts whatever `company_id`
+it is handed, so letting a customer post to it directly would let them file
+recordings into — and then read them back out of — any company whose id they
+could guess. The proxy is what makes the API key mean anything.
+
+The dashboard's own uploader is not affected: it posts from the browser
+straight to the processing service and keeps the full 200 MB. Raising the API
+ceiling means either verifying JWTs on the processing service, so scoped
+credentials can be handed out, or hosting that one route somewhere without the
+cap.

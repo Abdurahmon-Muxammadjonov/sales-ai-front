@@ -331,7 +331,8 @@
     "docsSend": "1. Audioni yuborish — javobda qoʻngʻiroq id’si qaytadi:",
     "docsPoll": "2. Natijani olish — holat “done” boʻlgach, matn va tahlil tayyor:",
     "docsAsync": "Qayta ishlash taxminan 20 soniya davom etadi. Birinchi soʻrov darrov id qaytaradi, matn tayyor boʻlishini ikkinchi soʻrov bilan tekshirasiz.",
-    "docsServerOnly": "Kalitni brauzerdagi JavaScript’ga qoʻymang — u yerda uni har kim koʻra oladi va sizning nomingizdan qoʻngʻiroq yuklay oladi. Soʻrovni faqat oʻz serveringizdan yuboring."
+    "docsServerOnly": "Kalitni brauzerdagi JavaScript’ga qoʻymang — u yerda uni har kim koʻra oladi va sizning nomingizdan qoʻngʻiroq yuklay oladi. Soʻrovni faqat oʻz serveringizdan yuboring.",
+    "docsLimit": "Bu endpoint orqali yuborilgan fayl 4 MB dan oshmasligi kerak — soʻrov Vercel serverlari orqali oʻtadi. Kattaroq yozuvlarni dastur ichidan yuklang: u brauzerdan toʻgʻridan-toʻgʻri yuboradi va 200 MB gacha qabul qiladi."
   },
   "topbar": {
     "hoursLabel": "Sarflangan soat",

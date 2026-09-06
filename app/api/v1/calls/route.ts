@@ -8,6 +8,23 @@ import {
 const RAILWAY = (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/+$/, "");
 
 /**
+ * Serverless platforms cap the request body they will hand to a function —
+ * 4.5 MB on Vercel — and they reject the request before this code runs. The
+ * file is proxied rather than sent straight to the processing service because
+ * that service trusts whatever `company_id` it is given: letting a caller post
+ * directly would let them file recordings into, and read them back out of, any
+ * company whose id they could guess. The proxy is what makes the API key mean
+ * something, and this ceiling is the price of it.
+ *
+ * The dashboard's own uploader is unaffected — it posts from the browser
+ * straight to the processing service, so it keeps the full 200 MB.
+ */
+const MAX_PROXY_BYTES = 4 * 1024 * 1024;
+
+/** Forwarding a multi-megabyte file takes longer than the 10s default. */
+export const maxDuration = 60;
+
+/**
  * POST /api/v1/calls — submit a recording for processing.
  *
  * The customer's own backend calls this with their API key. The key decides
@@ -50,6 +67,15 @@ export async function POST(request: Request) {
   }
   if (file.size > MAX_UPLOAD_BYTES) {
     return jsonError(413, "file_too_large", "Audio must be 200 MB or smaller.");
+  }
+  if (file.size > MAX_PROXY_BYTES) {
+    return jsonError(
+      413,
+      "file_too_large_for_api",
+      `Files sent through this endpoint must be ${Math.round(
+        MAX_PROXY_BYTES / 1024 / 1024,
+      )} MB or smaller. Larger recordings can be uploaded from the dashboard, which does not proxy them.`,
+    );
   }
 
   const outgoing = new FormData();

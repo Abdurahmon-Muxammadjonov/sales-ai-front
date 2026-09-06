@@ -159,7 +159,8 @@ function Docs({ origin }: { origin: string }) {
 # → {"call":{"status":"done",…},"transcript":{…},"analysis":{…}}`}
       </pre>
 
-      <p className="mt-4 text-sm text-red-text">{t("docsServerOnly")}</p>
+      <p className="mt-4 text-[13px] leading-relaxed text-ink-2">{t("docsLimit")}</p>
+      <p className="mt-3 text-[13px] leading-relaxed text-red-text">{t("docsServerOnly")}</p>
     </div>
   );
 }

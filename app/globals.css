@@ -1,0 +1,318 @@
+@import "tailwindcss";
+
+/* Flowbite React lives in node_modules, so Tailwind has to be told to scan it. */
+@source "../node_modules/flowbite-react/dist";
+
+/* next-themes writes `class="dark"` on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Design tokens.
+
+   Light values live on :root, dark values override the same names under .dark,
+   so every utility resolves through one variable and flips with the theme.
+
+   Two surfaces, not one: `--app` is the page ground and `--canvas` is the card
+   that sits on it. That separation is what gives the product its layered look —
+   a card is legible because the ground behind it is a shade darker.
+
+   The text tones are a shade darker than the reference palette. Its own values
+   put secondary text at 3.6:1 on white, which reads fine on a marketing page
+   and not at all in a dense table; these clear 4.5:1 on BOTH surfaces, which is
+   the test that matters once a card and the ground are different colours.
+--------------------------------------------------------------------------- */
+:root {
+  --app: #f5f5f7;
+  --canvas: #ffffff;
+  --raised: #ebebed;
+  --tint: #fafafa;
+  --hover: rgba(0, 0, 0, 0.04);
+
+  --ink: #1d1d1f;
+  --ink-2: #5d5d62;
+  --ink-3: #6e6e73;
+  --ink-4: #9a9aa0;
+
+  --line: rgba(0, 0, 0, 0.08);
+  --line-strong: rgba(0, 0, 0, 0.14);
+  --divider: rgba(0, 0, 0, 0.06);
+
+  --accent: #0071e3;
+  --accent-hover: #0077ed;
+  --accent-soft: rgba(0, 113, 227, 0.08);
+
+  --red: #ff3b30;
+  --orange: #ff9500;
+  --green: #34c759;
+  --purple: #af52de;
+  --teal: #5ac8fa;
+  --yellow: #ffcc00;
+  --pink: #ff2d55;
+  --indigo: #5856d6;
+  --gray: #8e8e93;
+
+  --red-text: #d70015;
+  --green-text: #1e7a34;
+  --accent-fill: #0071e3;
+
+  /* The two voice colours. Red is always the salesperson, indigo always the
+     client — drawn from the palette above so they belong to it, but held apart
+     from `--accent` on purpose: a ribbon slice must never read as a link.
+     Nothing decorative may borrow these two hues. */
+  --red-voice: var(--red);
+  --blue-voice: var(--indigo);
+
+  color-scheme: light;
+}
+
+.dark {
+  --app: #000000;
+  --canvas: #161618;
+  --raised: #1c1c1e;
+  --tint: #1a1a1c;
+  --hover: rgba(255, 255, 255, 0.06);
+
+  --ink: #f5f5f7;
+  --ink-2: #a8a8ae;
+  --ink-3: #98989d;
+  --ink-4: #6e6e73;
+
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --divider: rgba(255, 255, 255, 0.06);
+
+  --accent: #0a84ff;
+  --accent-hover: #409cff;
+  --accent-soft: rgba(10, 132, 255, 0.15);
+
+  --red: #ff453a;
+  --red-text: #ff6961;
+  --green-text: #30d158;
+  /* White on #0a84ff is 3.65:1 — the active nav row is 13px text, so the
+     filled surface needs a darker blue than the one used for links. */
+  --accent-fill: #0a6fd8;
+  --orange: #ff9f0a;
+  --green: #32d74b;
+  --purple: #bf5af2;
+  --teal: #64d2ff;
+  --yellow: #ffd60a;
+  --pink: #ff375f;
+  --indigo: #5e5ce6;
+  --gray: #98989d;
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-app: var(--app);
+  --color-canvas: var(--canvas);
+  --color-raised: var(--raised);
+  --color-tint: var(--tint);
+  --color-hover: var(--hover);
+
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-ink-4: var(--ink-4);
+
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-divider: var(--divider);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-fill: var(--accent-fill);
+  --color-red-text: var(--red-text);
+  --color-green-text: var(--green-text);
+
+  --color-red: var(--red);
+  --color-orange: var(--orange);
+  --color-green: var(--green);
+  --color-purple: var(--purple);
+  --color-teal: var(--teal);
+  --color-yellow: var(--yellow);
+  --color-pink: var(--pink);
+  --color-indigo: var(--indigo);
+  --color-gray: var(--gray);
+
+  --color-red-voice: var(--red-voice);
+  --color-blue-voice: var(--blue-voice);
+
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    var(--font-inter), system-ui, sans-serif;
+  --font-display:
+    -apple-system, BlinkMacSystemFont, "SF Pro Display", var(--font-inter),
+    system-ui, sans-serif;
+  --font-mono: "SF Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@theme {
+  /* 12 / 13 / 15 / 18 / 22 / 30 / 46 */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.1rem;
+  --text-sm: 0.8125rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 0.9375rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.6rem;
+  --text-xl: 1.375rem;
+  --text-xl--line-height: 1.8rem;
+  --text-2xl: 1.875rem;
+  --text-2xl--line-height: 2.2rem;
+  --text-3xl: 2.875rem;
+  --text-3xl--line-height: 3.05rem;
+
+  --radius-control: 10px;
+  --radius-card: 14px;
+  --radius-hero: 20px;
+
+  --spacing-sidebar: 240px;
+  --spacing-topbar: 56px;
+}
+
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--app);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    letter-spacing: -0.011em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Every number in the product sits in a column somewhere. */
+  :where(table, .tnum, time, output) {
+    font-variant-numeric: tabular-nums;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: var(--accent-soft);
+  }
+}
+
+@utility shell {
+  width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* A card: the one surface the whole product is built from. */
+@utility card {
+  background-color: var(--canvas);
+  border: 0.5px solid var(--line);
+  border-radius: var(--radius-card);
+}
+
+/* Frosted chrome for the sidebar and topbar, as in the reference. */
+@utility vibrancy {
+  background-color: color-mix(in srgb, var(--canvas) 78%, transparent);
+  backdrop-filter: saturate(180%) blur(30px);
+  -webkit-backdrop-filter: saturate(180%) blur(30px);
+}
+
+/* Skeletons: a single restrained shimmer, disabled for reduced motion. */
+@utility skeleton {
+  background-color: var(--raised);
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--ink) 6%, transparent),
+    transparent
+  );
+  animation: sp-shimmer 1.4s infinite;
+}
+
+@keyframes sp-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Native range input, styled once, used by the audio player. */
+input[type="range"].sp-range {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="range"].sp-range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--line-strong);
+}
+
+input[type="range"].sp-range::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--line-strong);
+}
+
+input[type="range"].sp-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 14px;
+  width: 14px;
+  margin-top: -5px;
+  border-radius: 999px;
+  background: var(--canvas);
+  border: 0.5px solid var(--line-strong);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+input[type="range"].sp-range::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border: 0.5px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--canvas);
+}

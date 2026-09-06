@@ -157,9 +157,7 @@ function FeatureCard({
 
   return (
     <div
-      className={`card flex flex-col p-5 transition-shadow duration-200 ${
-        disabled ? "opacity-60" : "hover:shadow-[0_4px_16px_rgba(0,0,0,.06)]"
-      }`}
+      className={`card flex flex-col p-5 ${disabled ? "opacity-60" : "lift"}`}
     >
       <span
         aria-hidden="true"

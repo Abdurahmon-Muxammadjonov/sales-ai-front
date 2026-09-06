@@ -30,6 +30,7 @@ export function LandingRibbon() {
         roleOf={demoRoleOf}
         ratio={DEMO_RATIO}
         size="hero"
+        animate
       />
       <VoiceLegend ratio={DEMO_RATIO} className="mt-4" />
       <p className="mt-3 text-[12px] text-ink-3">{t("heroCaption")}</p>

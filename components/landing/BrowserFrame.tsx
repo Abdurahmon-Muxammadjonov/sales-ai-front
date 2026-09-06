@@ -17,7 +17,7 @@ export function BrowserFrame({
 }) {
   return (
     <div
-      className={`overflow-hidden rounded-card border border-line bg-canvas shadow-[0_12px_40px_-12px_rgba(0,0,0,.22)] ${className}`}
+      className={`overflow-hidden rounded-card border border-line bg-canvas shadow-[0_12px_40px_-12px_rgba(0,0,0,.22)] transition-shadow duration-300 hover:shadow-[0_20px_56px_-16px_rgba(0,0,0,.3)] ${className}`}
     >
       <div className="flex items-center gap-2 border-b border-line bg-raised px-3.5 py-2.5">
         <span aria-hidden="true" className="flex gap-1.5">

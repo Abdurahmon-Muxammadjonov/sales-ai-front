@@ -255,7 +255,16 @@ export default function SttPage() {
             onDragLeave={() => setDragging(false)}
             onDrop={onDrop}
             onClick={() => inputRef.current?.click()}
-            className={`cursor-pointer rounded-card border border-dashed px-6 py-12 text-center transition-colors duration-150 ${
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                inputRef.current?.click();
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label={t("choose")}
+            className={`cursor-pointer rounded-card border border-dashed px-6 py-12 text-center transition-colors duration-150 focus-visible:border-accent focus-visible:bg-accent-soft ${
               dragging ? "border-accent bg-accent-soft" : "border-line-strong hover:bg-hover"
             }`}
           >

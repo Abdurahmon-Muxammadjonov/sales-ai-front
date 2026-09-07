@@ -155,8 +155,13 @@ export default function SellersPage() {
                       }`}
                     >
                       {t(column.label)}
-                      <span aria-hidden="true" className="text-[9px] leading-none">
-                        {active ? (sort.dir === "asc" ? "▲" : "▼") : ""}
+                      <span
+                        aria-hidden="true"
+                        className={`w-2 text-[9px] leading-none transition-opacity ${
+                          active ? "opacity-100" : "opacity-0 group-hover/head:opacity-40"
+                        }`}
+                      >
+                        {active && sort.dir === "asc" ? "▲" : "▼"}
                       </span>
                     </button>
                   </TableHeadCell>
@@ -169,12 +174,14 @@ export default function SellersPage() {
             {sorted.map((row) => {
               const ratio = ratios.get(row.seller_id) ?? null;
               return (
-                <TableRow key={row.seller_id} className="border-b border-line hover:bg-raised">
+                <TableRow key={row.seller_id} className="group relative border-b border-line hover:bg-raised">
                   <TableCell className="max-w-[14rem] truncate">
                     <Link
                       href={`/sellers/${row.seller_id}`}
                       aria-label={t("openProfile", { name: row.full_name })}
-                      className="rounded-control font-medium text-ink underline decoration-transparent underline-offset-4 hover:decoration-current"
+                      // Stretches over the whole row, so the hover highlight
+                      // and the click target finally describe the same area.
+                      className="rounded-control font-medium text-ink underline decoration-transparent underline-offset-4 after:absolute after:inset-0 after:content-[''] hover:decoration-current"
                     >
                       {row.full_name}
                     </Link>

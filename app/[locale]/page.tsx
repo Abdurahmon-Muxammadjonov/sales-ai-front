@@ -63,9 +63,7 @@ export default async function LandingPage({
       {/* ----------------------------------------------------------------- how */}
       <section id="how" className="scroll-mt-20 border-t border-line bg-canvas py-16 sm:py-24">
         <div className="shell">
-          <Reveal>
-            <SectionHead title={t("howTitle")} sub={t("howSub")} />
-          </Reveal>
+          <SectionHead title={t("howTitle")} sub={t("howSub")} />
           <ol className="mt-12 grid gap-8 md:grid-cols-3">
             <Step
               n="1"
@@ -73,7 +71,6 @@ export default async function LandingPage({
               tone="var(--accent)"
               title={t("how1Title")}
               body={t("how1Body")}
-              delay={0}
             />
             <Step
               n="2"
@@ -81,7 +78,6 @@ export default async function LandingPage({
               tone="var(--teal)"
               title={t("how2Title")}
               body={t("how2Body")}
-              delay={0.08}
             />
             <Step
               n="3"
@@ -89,7 +85,6 @@ export default async function LandingPage({
               tone="var(--green)"
               title={t("how3Title")}
               body={t("how3Body")}
-              delay={0.16}
             />
           </ol>
         </div>
@@ -98,16 +93,14 @@ export default async function LandingPage({
       {/* ---------------------------------------------------------------- what */}
       <section id="what" className="scroll-mt-20 border-t border-line py-16 sm:py-24">
         <div className="shell">
-          <Reveal>
-            <SectionHead title={t("whatTitle")} sub={t("whatSub")} />
-          </Reveal>
+          <SectionHead title={t("whatTitle")} sub={t("whatSub")} />
 
           <div className="mt-12 grid gap-10 lg:grid-cols-2 lg:items-start">
             <div className="space-y-8">
               <Feature title={t("what2Title")} body={t("what2Body")} />
-              <Feature title={t("what3Title")} body={t("what3Body")} delay={0.06} />
-              <Feature title={t("what4Title")} body={t("what4Body")} delay={0.12} />
-              <Feature title={t("what1Title")} body={t("what1Body")} delay={0.18} />
+              <Feature title={t("what3Title")} body={t("what3Body")} />
+              <Feature title={t("what4Title")} body={t("what4Body")} />
+              <Feature title={t("what1Title")} body={t("what1Body")} />
             </div>
 
             <div className="space-y-5">
@@ -129,7 +122,7 @@ export default async function LandingPage({
       {/* ----------------------------------------------------------------- api */}
       <section id="api" className="scroll-mt-20 border-t border-line bg-canvas py-16 sm:py-24">
         <div className="shell grid gap-10 lg:grid-cols-2 lg:items-center">
-          <Reveal>
+          <div>
             <span
               aria-hidden="true"
               className="grid size-10 place-items-center rounded-full"
@@ -145,9 +138,8 @@ export default async function LandingPage({
             </h2>
             <p className="mt-3 max-w-lg text-[15px] leading-relaxed text-ink-2">{t("apiSub")}</p>
             <p className="mt-3 max-w-lg text-[13px] leading-relaxed text-ink-3">{t("apiNote")}</p>
-          </Reveal>
+          </div>
 
-          <Reveal delay={0.08}>
           <BrowserFrame label="terminal">
             <pre className="overflow-x-auto font-mono text-[12px] leading-relaxed text-ink">
 {`$ curl -X POST https://salespulse.uz/api/v1/calls \\
@@ -165,13 +157,12 @@ $ curl https://salespulse.uz/api/v1/calls/7ea8c82a-... \\
     "analysis":   { "total_score": 5, ... } }`}
             </pre>
           </BrowserFrame>
-          </Reveal>
         </div>
       </section>
 
       {/* ----------------------------------------------------------------- cta */}
       <section className="border-t border-line py-16 sm:py-24">
-        <Reveal className="shell text-center">
+        <div className="shell text-center">
           <h2 className="mx-auto max-w-2xl text-[26px] font-semibold tracking-[-0.02em] text-balance text-ink sm:text-[34px]">
             {t("ctaTitle")}
           </h2>
@@ -184,7 +175,7 @@ $ curl https://salespulse.uz/api/v1/calls/7ea8c82a-... \\
           >
             {t("heroCta")}
           </Link>
-        </Reveal>
+        </div>
       </section>
 
       <PublicFooter />
@@ -209,17 +200,15 @@ function Step({
   tone,
   title,
   body,
-  delay,
 }: {
   n: string;
   icon: ReactNode;
   tone: string;
   title: string;
   body: string;
-  delay: number;
 }) {
   return (
-    <Reveal as="li" delay={delay} className="relative">
+    <li className="relative">
       <span
         aria-hidden="true"
         className="grid size-11 place-items-center rounded-full"
@@ -230,15 +219,15 @@ function Step({
       <p className="tnum mt-4 font-mono text-[12px] text-ink-3">{n}</p>
       <h3 className="mt-1 text-[17px] font-semibold tracking-[-0.015em] text-ink">{title}</h3>
       <p className="mt-2 text-[14px] leading-relaxed text-ink-2">{body}</p>
-    </Reveal>
+    </li>
   );
 }
 
-function Feature({ title, body, delay = 0 }: { title: string; body: string; delay?: number }) {
+function Feature({ title, body }: { title: string; body: string }) {
   return (
-    <Reveal delay={delay} className="border-l-2 border-line pl-5 transition-colors duration-200 hover:border-accent">
+    <div className="border-l-2 border-line pl-5 transition-colors duration-200 hover:border-accent">
       <h3 className="text-[17px] font-semibold tracking-[-0.015em] text-ink">{title}</h3>
       <p className="mt-2 max-w-md text-[14px] leading-relaxed text-ink-2">{body}</p>
-    </Reveal>
+    </div>
   );
 }

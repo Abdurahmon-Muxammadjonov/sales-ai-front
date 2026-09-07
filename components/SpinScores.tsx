@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 import { formatScore, mmss, parseTimecode } from "@/lib/format";
@@ -20,12 +20,39 @@ const AXES: Array<{ key: SpinAxis; label: string }> = [
 export function SpinScores({
   analysis,
   onSeek,
+  /**
+   * Hold the bars and the count-up until the block is actually on screen.
+   * Off by default so the call detail page, where this is above the fold,
+   * keeps playing on mount.
+   */
+  deferUntilVisible = false,
 }: {
   analysis: Analysis;
   onSeek?: (seconds: number) => void;
+  deferUntilVisible?: boolean;
 }) {
   const t = useTranslations("spin");
   const locale = useLocale();
+
+  const [started, setStarted] = useState(!deferUntilVisible);
+  const rootRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (started || typeof IntersectionObserver === "undefined") return;
+    const node = rootRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setStarted(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "0px 0px -80px 0px" },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [started]);
 
   const strengths = analysis.strengths ?? [];
   const mistakes = analysis.mistakes ?? [];
@@ -33,7 +60,11 @@ export function SpinScores({
   const recommendations = analysis.recommendations ?? [];
 
   return (
-    <section aria-labelledby="spin-heading" className="border-t border-line pt-8">
+    <section
+      ref={rootRef}
+      aria-labelledby="spin-heading"
+      className="border-t border-line pt-8"
+    >
       <div id="spin-heading">
         <SectionTitle>{t("title")}</SectionTitle>
       </div>
@@ -42,7 +73,7 @@ export function SpinScores({
         <div>
           <p className="text-sm text-ink-2">{t("totalScore")}</p>
           <p className="font-display mt-1 flex items-baseline gap-2">
-            <CountUp value={analysis.total_score ?? 0} locale={locale} />
+            <CountUp value={analysis.total_score ?? 0} locale={locale} started={started} />
             <span className="text-sm font-normal text-ink-3">{t("outOf")}</span>
           </p>
         </div>
@@ -58,7 +89,7 @@ export function SpinScores({
               >
                 <dt className="truncate text-sm text-ink-2">{t(axis.label)}</dt>
                 <dd className="h-1.5 overflow-hidden rounded-full bg-line">
-                  <ScoreBar value={value} weak={weak} delay={index * 0.05} />
+                  <ScoreBar value={value} weak={weak} delay={index * 0.05} started={started} />
                 </dd>
                 <dd className="tnum text-right text-sm text-ink">
                   <span className="sr-only">{t("axisValue", { value })}</span>
@@ -160,7 +191,17 @@ function ItemList({
  * where red means "weak" rather than "salesperson" — and the only place it is
  * allowed to.
  */
-function ScoreBar({ value, weak, delay }: { value: number; weak: boolean; delay: number }) {
+function ScoreBar({
+  value,
+  weak,
+  delay,
+  started,
+}: {
+  value: number;
+  weak: boolean;
+  delay: number;
+  started: boolean;
+}) {
   const reduceMotion = useReducedMotion();
   const percent = Math.max(0, Math.min(100, (value / 10) * 100));
 
@@ -169,13 +210,21 @@ function ScoreBar({ value, weak, delay }: { value: number; weak: boolean; delay:
       className="h-full rounded-full"
       style={{ backgroundColor: weak ? "var(--red-voice)" : "var(--ink)" }}
       initial={reduceMotion ? false : { width: 0 }}
-      animate={{ width: `${percent}%` }}
+      animate={{ width: started ? `${percent}%` : 0 }}
       transition={{ duration: 0.4, ease: "easeOut", delay: reduceMotion ? 0 : delay }}
     />
   );
 }
 
-function CountUp({ value, locale }: { value: number; locale: string }) {
+function CountUp({
+  value,
+  locale,
+  started,
+}: {
+  value: number;
+  locale: string;
+  started: boolean;
+}) {
   const reduceMotion = useReducedMotion();
   const [shown, setShown] = useState(reduceMotion ? value : 0);
 
@@ -184,18 +233,19 @@ function CountUp({ value, locale }: { value: number; locale: string }) {
       setShown(value);
       return;
     }
+    if (!started) return;
     let frame = 0;
-    const started = performance.now();
+    const startedAt = performance.now();
     const duration = 700;
     const run = (now: number) => {
-      const progress = Math.min(1, (now - started) / duration);
+      const progress = Math.min(1, (now - startedAt) / duration);
       // Ease-out cubic: fast enough to feel instant, slow enough to read.
       setShown(value * (1 - Math.pow(1 - progress, 3)));
       if (progress < 1) frame = requestAnimationFrame(run);
     };
     frame = requestAnimationFrame(run);
     return () => cancelAnimationFrame(frame);
-  }, [reduceMotion, value]);
+  }, [reduceMotion, started, value]);
 
   return (
     <output className="tnum text-3xl leading-none font-bold tracking-tight">

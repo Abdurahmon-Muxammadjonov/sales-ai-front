@@ -217,7 +217,9 @@ export function Ribbon({
             data-slice={slice.index}
             tabIndex={slice.index === focusIndex ? 0 : -1}
             variants={shouldAnimate ? sliceVariants : undefined}
-            className="absolute inset-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+            // An outline would be clipped by the track's overflow-hidden, so
+            // the focused slice is marked with an inset ring instead.
+            className="absolute inset-y-0 focus-visible:outline-none focus-visible:shadow-[inset_0_0_0_2px_var(--canvas),inset_0_0_0_4px_var(--ink)]"
             style={style}
             aria-label={t("ribbonSlice", {
               role: tRoles(slice.role === "seller" ? "salesperson" : "client"),

@@ -57,7 +57,7 @@ export const flowbiteTheme = createTheme({
 
   toggleSwitch: {
     root: {
-      base: "group flex rounded-control focus:outline-none",
+      base: "group flex rounded-control",
       label: "ms-3 mt-0.5 text-start text-sm font-medium text-ink",
     },
     toggle: {

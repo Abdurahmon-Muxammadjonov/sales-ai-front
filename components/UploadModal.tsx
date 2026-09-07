@@ -182,15 +182,31 @@ export function UploadModal({
           }}
           onDragLeave={() => setDragging(false)}
           onDrop={onDrop}
-          className={`rounded-card border border-dashed p-6 text-center transition-colors ${
-            dragging ? "border-ink bg-raised" : "border-line"
+          onClick={() => inputRef.current?.click()}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              inputRef.current?.click();
+            }
+          }}
+          role="button"
+          tabIndex={0}
+          aria-label={t("chooseFiles")}
+          className={`cursor-pointer rounded-card border border-dashed p-6 text-center transition-colors focus-visible:border-accent focus-visible:bg-accent-soft ${
+            dragging ? "border-accent bg-accent-soft" : "border-line-strong hover:bg-hover"
           }`}
         >
           <p className="text-sm font-medium text-ink">
             {dragging ? t("dropzoneActive") : t("dropzone")}
           </p>
           <p className="mt-1 text-sm text-ink-2">{t("dropzoneHint")}</p>
-          <Button className="mt-4" onClick={() => inputRef.current?.click()}>
+          <Button
+            className="mt-4"
+            onClick={(event) => {
+              event.stopPropagation();
+              inputRef.current?.click();
+            }}
+          >
             {t("chooseFiles")}
           </Button>
           <input

@@ -63,14 +63,22 @@ export const Transcript = memo(function Transcript({
               active ? "bg-raised" : ""
             }`}
           >
-            <button
-              type="button"
-              onClick={() => onSeek?.(segment.start)}
-              disabled={!onSeek}
-              className="tnum h-fit w-9 shrink-0 rounded-control pt-0.5 text-left text-xs text-ink-3 hover:text-ink disabled:hover:text-ink-3 sm:w-[52px]"
-            >
-              {mmss(segment.start)}
-            </button>
+            {/* Where there is no player to steer — the landing page preview —
+                a timestamp is a label, not a dead button wearing a
+                not-allowed cursor. */}
+            {onSeek ? (
+              <button
+                type="button"
+                onClick={() => onSeek(segment.start)}
+                className="tnum h-fit w-9 shrink-0 rounded-control pt-0.5 text-left text-xs text-ink-3 transition-colors hover:text-ink sm:w-[52px]"
+              >
+                {mmss(segment.start)}
+              </button>
+            ) : (
+              <span className="tnum h-fit w-9 shrink-0 pt-0.5 text-left text-xs text-ink-3 sm:w-[52px]">
+                {mmss(segment.start)}
+              </span>
+            )}
 
             <div
               className="min-w-0 flex-1 border-l-2 pl-3 sm:pl-4"

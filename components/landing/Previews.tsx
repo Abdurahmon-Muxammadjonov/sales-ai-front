@@ -41,7 +41,7 @@ export function LandingRibbon() {
 export function LandingSpin() {
   return (
     <div className="[&_section]:border-0 [&_section]:pt-0">
-      <SpinScores analysis={DEMO_ANALYSIS} />
+      <SpinScores analysis={DEMO_ANALYSIS} deferUntilVisible />
     </div>
   );
 }

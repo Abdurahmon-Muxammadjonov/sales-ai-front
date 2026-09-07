@@ -123,7 +123,7 @@ export function AudioPlayer({
         disabled={disabled}
         onClick={() => step(-15)}
         aria-label={t("back15")}
-        className="inline-flex size-9 items-center justify-center rounded-control text-ink-2 hover:bg-raised hover:text-ink disabled:opacity-40"
+        className="inline-flex size-9 items-center justify-center rounded-control text-ink-2 transition-colors duration-150 hover:bg-hover hover:text-ink active:scale-[.94] disabled:opacity-40 disabled:active:scale-100"
       >
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path
@@ -141,7 +141,7 @@ export function AudioPlayer({
         disabled={disabled}
         onClick={toggle}
         aria-label={playing ? t("pause") : t("play")}
-        className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-ink text-canvas disabled:opacity-40"
+        className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-ink text-canvas transition-transform duration-150 hover:opacity-90 active:scale-[.94] disabled:opacity-40 disabled:active:scale-100"
       >
         {playing ? (
           <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
@@ -159,7 +159,7 @@ export function AudioPlayer({
         disabled={disabled}
         onClick={() => step(15)}
         aria-label={t("forward15")}
-        className="inline-flex size-9 items-center justify-center rounded-control text-ink-2 hover:bg-raised hover:text-ink disabled:opacity-40"
+        className="inline-flex size-9 items-center justify-center rounded-control text-ink-2 transition-colors duration-150 hover:bg-hover hover:text-ink active:scale-[.94] disabled:opacity-40 disabled:active:scale-100"
       >
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path

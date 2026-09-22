@@ -38,6 +38,7 @@ export type ApiErrorKind =
   | "too_large"
   | "server"
   | "network"
+  | "upstream"
   | "unknown";
 
 export class ApiError extends Error {
@@ -82,6 +83,24 @@ async function authHeaders(): Promise<Record<string, string>> {
   if (!SEND_AUTH_HEADER || !getAccessToken) return {};
   const token = await getAccessToken();
   return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+/**
+ * Is the processing service answering at all?
+ *
+ * A browser cannot see the status of a response that arrives without CORS
+ * headers — the upload simply fails, indistinguishable from the network being
+ * down. Asking /health, which does send them, separates "your connection is
+ * gone" from "our service rejected the recording", and those call for
+ * completely different things from the person reading the message.
+ */
+async function isApiReachable(): Promise<boolean> {
+  try {
+    const response = await fetch(`${BASE}/health`, { cache: "no-store" });
+    return response.ok;
+  } catch {
+    return false;
+  }
 }
 
 function requireBase(): string {
@@ -176,8 +195,15 @@ export function uploadCall(
       }
     };
 
-    xhr.onerror = () => reject(new ApiError("network", 0));
-    xhr.ontimeout = () => reject(new ApiError("network", 0));
+    // A failed XHR tells us nothing about why. Ask the service directly
+    // before deciding which of the two stories to tell.
+    const failed = () =>
+      void isApiReachable().then((reachable) =>
+        reject(new ApiError(reachable ? "upstream" : "network", 0)),
+      );
+
+    xhr.onerror = failed;
+    xhr.ontimeout = failed;
     xhr.onabort = () => reject(new ApiError("network", 0));
 
     xhr.onload = () => {

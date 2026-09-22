@@ -357,6 +357,8 @@ function errorSentence(
       return t("companyNotFound");
     case "server":
       return t("server");
+    case "upstream":
+      return t("upstream");
     case "network":
       return t("network");
     default:

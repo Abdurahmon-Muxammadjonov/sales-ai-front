@@ -40,6 +40,8 @@ interface Job {
   status: CallStatus | null;
   transcript: Transcript | null;
   errorKey: string | null;
+  /** Set when the failure came from the API, so the reason can be named. */
+  apiErrorKind: ApiError["kind"] | null;
 }
 
 let seed = 0;
@@ -101,6 +103,7 @@ export default function SttPage() {
           status: null,
           transcript: null,
           errorKey: badFormat ? "errFormat" : tooLarge ? "errTooLarge" : null,
+          apiErrorKind: null,
         };
       });
 
@@ -161,7 +164,11 @@ export default function SttPage() {
         });
       } catch (error) {
         const apiError = toApiError(error);
-        patch(job.key, { state: "failed", errorKey: "errUpload" });
+        patch(job.key, {
+          state: "failed",
+          errorKey: "errUpload",
+          apiErrorKind: apiError.kind,
+        });
         if (apiError.kind === "limit" || apiError.kind === "not_found") {
           setBlocker(apiError);
           break;
@@ -383,6 +390,28 @@ export default function SttPage() {
   );
 }
 
+function apiReason(
+  kind: ApiError["kind"],
+  t: ReturnType<typeof useTranslations<"errors">>,
+): string {
+  switch (kind) {
+    case "limit":
+      return t("limitTitle");
+    case "not_found":
+      return t("companyNotFound");
+    case "too_large":
+      return t("fileTooLarge");
+    case "upstream":
+      return t("upstream");
+    case "network":
+      return t("network");
+    case "server":
+      return t("server");
+    default:
+      return t("unknown");
+  }
+}
+
 function JobCard({
   job,
   locale,
@@ -396,6 +425,7 @@ function JobCard({
 }) {
   const t = useTranslations("stt");
   const tRoles = useTranslations("roles");
+  const tErrors = useTranslations("errors");
   const [copied, setCopied] = useState(false);
 
   const speakers = useMemo(

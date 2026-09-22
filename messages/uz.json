@@ -264,7 +264,8 @@
     "server": "Server javob bermadi.",
     "network": "Tarmoqqa ulanib boʻlmadi.",
     "unknown": "Kutilmagan holat yuz berdi.",
-    "supportHint": "Takrorlansa, qoʻllab-quvvatlash xizmatiga yozing."
+    "supportHint": "Takrorlansa, qoʻllab-quvvatlash xizmatiga yozing.",
+    "upstream": "Yozuvni qayta ishlash xizmati javob bermadi. Internetingiz joyida — muammo bizning tomonda, biroz kutib qayta urinib koʻring."
   },
   "dates": {
     "monthsShort": [

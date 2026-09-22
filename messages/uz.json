@@ -89,7 +89,8 @@
     "invalidEmail": "Pochta manzili notoʻgʻri koʻrinmoqda. Yozilishini tekshiring.",
     "tooManyRequests": "Juda koʻp urinish boʻldi. Bir necha daqiqadan keyin qayta urinib koʻring.",
     "genericSignIn": "Kirib boʻlmadi. Biroz kutib qayta urinib koʻring.",
-    "genericSignUp": "Hisob yaratib boʻlmadi. Biroz kutib qayta urinib koʻring."
+    "genericSignUp": "Hisob yaratib boʻlmadi. Biroz kutib qayta urinib koʻring.",
+    "unreachable": "Serverga ulanib boʻlmadi. Internetni tekshiring — muammo saqlansa, bu bizning tomonda, qoʻllab-quvvatlash xizmatiga yozing."
   },
   "guard": {
     "noCompanyTitle": "Hisobingiz hali kompaniyaga biriktirilmagan",

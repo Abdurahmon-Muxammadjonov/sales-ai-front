@@ -56,6 +56,18 @@ function messageKeyFor(error: AuthError | null, mode: Mode): string {
   ) {
     return "tooManyRequests";
   }
+  // The request never reached a server. Telling someone to wait and retry is
+  // wrong here — if the backend is unreachable, waiting will not fix it, and
+  // they should be looking at their connection or at us.
+  if (
+    status === 0 ||
+    code === "" ||
+    error?.name === "AuthRetryableFetchError" ||
+    text.includes("failed to fetch") ||
+    text.includes("network")
+  ) {
+    return "unreachable";
+  }
   return mode === "signIn" ? "genericSignIn" : "genericSignUp";
 }
 
@@ -127,7 +139,7 @@ export default function SignInScreen() {
       if (data.session) router.replace("/calls");
       else setConfirmSentTo(email);
     } catch {
-      setErrorKey(mode === "signIn" ? "genericSignIn" : "genericSignUp");
+      setErrorKey("unreachable");
     } finally {
       setBusy(false);
     }

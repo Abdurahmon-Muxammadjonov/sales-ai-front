@@ -492,7 +492,10 @@ function JobCard({
 
       {job.errorKey ? (
         <p role="alert" className="mt-3 text-[13px] text-red-text">
-          {t(job.errorKey)}
+          {/* Name the actual reason when the API gave one. A bare "could not
+              send" leaves the person with nothing to act on — a spent monthly
+              quota and a dead backend need opposite responses. */}
+          {job.apiErrorKind ? apiReason(job.apiErrorKind, tErrors) : t(job.errorKey)}
         </p>
       ) : null}
 

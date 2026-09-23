@@ -14,7 +14,9 @@
     "hoursShort": "soat",
     "tryAgain": "Qayta urinib koʻring",
     "somethingBroke": "Maʼlumotni olib boʻlmadi",
-    "somethingBrokeBody": "Ulanishni tekshiring va sahifani yangilang."
+    "somethingBrokeBody": "Ulanishni tekshiring va sahifani yangilang.",
+    "missingConfigTitle": "Dastur sozlanmagan",
+    "missingConfigBody": "Quyidagi oʻzgaruvchilar deployment’da koʻrsatilmagan. Ular build paytida kodga yoziladi, shuning uchun qoʻshgandan keyin qayta deploy qilish shart."
   },
   "nav": {
     "calls": "Qoʻngʻiroqlar",

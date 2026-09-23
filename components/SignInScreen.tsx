@@ -5,7 +5,7 @@ import type { AuthError } from "@supabase/supabase-js";
 import { useTranslations } from "next-intl";
 import { Label, TextInput } from "flowbite-react";
 import { useRouter } from "@/i18n/navigation";
-import { getSupabase, supabaseConfigured } from "@/lib/supabase/client";
+import { getSupabase, missingConfig, supabaseConfigured } from "@/lib/supabase/client";
 import { Button, Notice } from "@/components/ui";
 import { Wordmark } from "@/components/Wordmark";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -169,8 +169,17 @@ export default function SignInScreen() {
               <Notice
                 className="mt-6"
                 tone="warning"
-                title={tCommon("somethingBroke")}
-                body={tCommon("somethingBrokeBody")}
+                title={tCommon("missingConfigTitle")}
+                body={
+                  <>
+                    <p>{tCommon("missingConfigBody")}</p>
+                    <ul className="mt-2 font-mono text-[12px]">
+                      {missingConfig().map((name) => (
+                        <li key={name}>{name}</li>
+                      ))}
+                    </ul>
+                  </>
+                }
               />
             ) : null}
 

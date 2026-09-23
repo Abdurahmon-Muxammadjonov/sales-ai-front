@@ -4,6 +4,7 @@ import { useState, type FormEvent, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { Drawer, DrawerItems, Label, TextInput } from "flowbite-react";
 import { createCompanyForCurrentUser } from "@/lib/queries";
+import { missingConfig } from "@/lib/supabase/client";
 import { usePathname } from "@/i18n/navigation";
 import { SessionProvider, useGuardedSession } from "@/components/SessionProvider";
 import { Sidebar } from "@/components/Sidebar";
@@ -207,7 +208,20 @@ function UnconfiguredScreen() {
   const t = useTranslations("common");
   return (
     <CenteredCard>
-      <Notice tone="warning" title={t("somethingBroke")} body={t("somethingBrokeBody")} />
+      <Notice
+        tone="warning"
+        title={t("missingConfigTitle")}
+        body={
+          <>
+            <p>{t("missingConfigBody")}</p>
+            <ul className="mt-2 font-mono text-[12px]">
+              {missingConfig().map((name) => (
+                <li key={name}>{name}</li>
+              ))}
+            </ul>
+          </>
+        }
+      />
     </CenteredCard>
   );
 }

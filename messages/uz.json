@@ -339,7 +339,8 @@
     "docsPoll": "2. Natijani olish — holat “done” boʻlgach, matn va tahlil tayyor:",
     "docsAsync": "Qayta ishlash taxminan 20 soniya davom etadi. Birinchi soʻrov darrov id qaytaradi, matn tayyor boʻlishini ikkinchi soʻrov bilan tekshirasiz.",
     "docsServerOnly": "Kalitni brauzerdagi JavaScript’ga qoʻymang — u yerda uni har kim koʻra oladi va sizning nomingizdan qoʻngʻiroq yuklay oladi. Soʻrovni faqat oʻz serveringizdan yuboring.",
-    "docsLimit": "Bu endpoint orqali yuborilgan fayl 4 MB dan oshmasligi kerak — soʻrov Vercel serverlari orqali oʻtadi. Kattaroq yozuvlarni dastur ichidan yuklang: u brauzerdan toʻgʻridan-toʻgʻri yuboradi va 200 MB gacha qabul qiladi."
+    "docsLimit": "Bu endpoint orqali yuborilgan fayl 4 MB dan oshmasligi kerak — soʻrov Vercel serverlari orqali oʻtadi. Kattaroq yozuvlarni dastur ichidan yuklang: u brauzerdan toʻgʻridan-toʻgʻri yuboradi va 200 MB gacha qabul qiladi.",
+    "docsFull": "Toʻliq hujjat"
   },
   "topbar": {
     "hoursLabel": "Sarflangan soat",
@@ -447,5 +448,43 @@
     "footerLine": "Sotuv qoʻngʻiroqlari uchun nutq tahlili. Oʻzbekcha, ruscha va aralash nutq.",
     "footerContact": "Bogʻlanish",
     "footerRights": "© 2026 SalesPulse AI"
+  },
+  "docs": {
+    "title": "Developer API",
+    "subtitle": "Qoʻngʻiroqlarni oʻz tizimingizdan yuboring va matnni qaytarib oling. Parol ham, sessiya ham kerak emas — API kalitining oʻzi yetarli.",
+    "overviewTitle": "Qanday ishlaydi",
+    "overviewBody": "API asinxron: birinchi soʻrov audioni qabul qilib, darhol qoʻngʻiroq id’sini qaytaradi. Qayta ishlash fonda ketadi. Matn tayyor boʻlganini ikkinchi soʻrov bilan tekshirasiz. Bir daqiqadan kam vaqt oladi.",
+    "authTitle": "Autentifikatsiya",
+    "authBody": "Har bir soʻrovga kalitni Authorization sarlavhasida qoʻshasiz. Kalitni Sozlamalar → API kalitlar boʻlimidan yaratasiz va u faqat bir marta koʻrsatiladi.",
+    "authWarn": "Kalitni brauzerdagi JavaScript’ga qoʻymang. U yerda uni har kim koʻradi va sizning hisobingizdan qoʻngʻiroq yuklay oladi. Soʻrovni faqat oʻz serveringizdan yuboring.",
+    "ep1Title": "Yozuv yuborish",
+    "ep1Body": "multipart/form-data bilan yuboriladi. Javobda qoʻngʻiroq id’si qaytadi — uni saqlab qoʻying.",
+    "ep2Title": "Natijani olish",
+    "ep2Body": "Holat “done” boʻlgunicha bir necha soniyada bir marta soʻrang. Tayyor boʻlgach matn, gapirish nisbati va tahlil qaytadi.",
+    "paramsTitle": "Maydonlar",
+    "paramFile": "Audio fayl. mp3, wav, m4a, ogg, opus, flac, webm, mp4.",
+    "paramSeller": "Qaysi sotuvchi qilgan qoʻngʻiroq. Sozlamalardagi sotuvchi id’si.",
+    "paramClient": "Mijoz nomi. Ixtiyoriy, roʻyxatda koʻrinadi.",
+    "paramSpeakers": "Nutqlarni ajratish. 2 — ajratiladi (standart), 0 — ajratilmaydi: ~40% tez, lekin gapirish nisbati hisoblanmaydi.",
+    "required": "majburiy",
+    "optional": "ixtiyoriy",
+    "statusTitle": "Holatlar",
+    "statusFlow": "Qoʻngʻiroq shu tartibda oʻtadi. “failed” boʻlsa, sabab error maydonida yoziladi.",
+    "errorsTitle": "Xatolar",
+    "errCode": "Kod",
+    "errMeaning": "Maʼnosi",
+    "err401": "Kalit notoʻgʻri, oʻchirilgan yoki umuman berilmagan.",
+    "err402": "Oylik soat limiti tugagan. Sozlamalarda koʻrsatilgan.",
+    "err404": "Bu kalitga tegishli bunday qoʻngʻiroq yoʻq. Begona id soʻralsa ham shu javob qaytadi.",
+    "err413": "Fayl 4 MB dan katta. Kattaroq yozuvlarni dastur ichidan yuklang.",
+    "err415": "Format qabul qilinmaydi.",
+    "err502": "Qayta ishlash xizmati javob bermadi. Biroz kutib qayta urinib koʻring.",
+    "limitsTitle": "Cheklovlar",
+    "limitSize": "Bu endpoint orqali fayl 4 MB gacha — soʻrov bizning serverimiz orqali oʻtadi. Dastur ichidan yuklaganda 200 MB gacha, chunki u toʻgʻridan-toʻgʻri yuboradi.",
+    "limitLen": "Yozuv 120 daqiqagacha.",
+    "limitLang": "Til avtomatik aniqlanadi: oʻzbek, rus va aralash nutq. Til tanlash parametri yoʻq.",
+    "examplesTitle": "Namunalar",
+    "responseTitle": "Javob",
+    "responseNote": "analysis — null boʻlishi mumkin: SPIN bahosi ixtiyoriy va har bir qoʻngʻiroq uchun hisoblanmaydi. Gapiruvchilar SPEAKER_00 va SPEAKER_01 deb belgilanadi; birinchi boʻlib gapirgani — sotuvchi."
   }
 }

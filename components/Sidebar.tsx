@@ -36,7 +36,7 @@ const ITEMS: NavItem[] = [
     icon: <IconCode />,
     children: [
       { key: "apiKeysItem", href: "/settings#api" },
-      { key: "docs", href: "/speech/stt#docs" },
+      { key: "docs", href: "/developers" },
       { key: "playground", href: "/speech/stt" },
     ],
   },

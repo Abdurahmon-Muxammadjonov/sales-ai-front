@@ -38,6 +38,7 @@ function usePageTitle(): string {
   if (pathname.startsWith("/speech")) return t("main");
   if (pathname.startsWith("/calls")) return t("calls");
   if (pathname.startsWith("/sellers")) return t("sellers");
+  if (pathname.startsWith("/developers")) return t("docs");
   if (pathname.startsWith("/settings")) return t("settings");
   return t("main");
 }

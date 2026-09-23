@@ -3,6 +3,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import { Label, Modal, ModalBody, ModalFooter, ModalHeader, TextInput } from "flowbite-react";
+import { Link } from "@/i18n/navigation";
 import { createApiKey, fetchApiKeys, revokeApiKey, type ApiKey } from "@/lib/apiKeys";
 import { useDateFormat } from "@/lib/useDateFormat";
 import { Button, Notice, SectionTitle, Skeleton } from "./ui";
@@ -160,6 +161,13 @@ function Docs({ origin }: { origin: string }) {
       </pre>
 
       <p className="mt-4 text-[13px] leading-relaxed text-ink-2">{t("docsLimit")}</p>
+      <Link
+        href="/developers"
+        className="mt-3 inline-flex items-center gap-1 text-[13px] font-medium text-accent hover:opacity-75"
+      >
+        {t("docsFull")}
+        <span aria-hidden="true">→</span>
+      </Link>
       <p className="mt-3 text-[13px] leading-relaxed text-red-text">{t("docsServerOnly")}</p>
     </div>
   );

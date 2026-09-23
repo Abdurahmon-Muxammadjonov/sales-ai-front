@@ -61,8 +61,12 @@ export function Topbar({
             <p className="tnum font-mono text-[15px] font-semibold text-ink">
               {hoursUsed == null
                 ? "—"
-                : `${formatNumber(hoursUsed, locale, 1)}${
-                    hoursLimit ? ` / ${formatNumber(hoursLimit, locale, 0)}` : ""
+                : /* A cap this large is one in name only; printing it turns the
+                     figure into noise. Settings says the same thing in words. */
+                  `${formatNumber(hoursUsed, locale, 1)}${
+                    hoursLimit && hoursLimit < 100_000
+                      ? ` / ${formatNumber(hoursLimit, locale, 0)}`
+                      : ""
                   }`}
             </p>
             <p className="mt-1 text-[11px] text-ink-3">{tTop("hoursLabel")}</p>

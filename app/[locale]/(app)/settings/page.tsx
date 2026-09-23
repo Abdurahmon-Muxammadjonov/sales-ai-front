@@ -43,8 +43,14 @@ export default function SettingsPage() {
 
   const used = Number(company?.hours_used ?? 0);
   const limit = Number(company?.hours_limit ?? 0);
+  /**
+   * A plan this large is a cap in name only — eleven years of continuous audio.
+   * Drawing a progress bar at 0.0004% reads as a bug, so an effectively
+   * uncapped company gets a plain figure and no meter.
+   */
+  const uncapped = limit >= 100_000;
   const fraction = limit > 0 ? Math.min(1, used / limit) : 0;
-  const nearLimit = fraction > 0.9;
+  const nearLimit = !uncapped && fraction > 0.9;
 
   return (
     <>
@@ -82,12 +88,15 @@ export default function SettingsPage() {
           <div className="flex items-baseline justify-between gap-4">
             <p className="text-[13px] font-medium text-ink">{t("usage")}</p>
             <p className="tnum font-mono text-[13px] text-ink">
-              {t("usageValue", {
-                used: formatNumber(used, locale, 1),
-                limit: formatNumber(limit, locale, 0),
-              })}
+              {uncapped
+                ? t("usageUnlimited", { used: formatNumber(used, locale, 1) })
+                : t("usageValue", {
+                    used: formatNumber(used, locale, 1),
+                    limit: formatNumber(limit, locale, 0),
+                  })}
             </p>
           </div>
+          {uncapped ? null : (
           <div
             className="mt-2 h-1.5 overflow-hidden rounded-full bg-line"
             role="progressbar"
@@ -104,7 +113,8 @@ export default function SettingsPage() {
               }}
             />
           </div>
-          {limit > 0 ? (
+          )}
+          {limit > 0 && !uncapped ? (
             <p className="tnum mt-2 text-[12px] text-ink-3">
               {t("usageLeft", { left: formatNumber(Math.max(0, limit - used), locale, 1) })}
             </p>

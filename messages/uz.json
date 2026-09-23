@@ -253,7 +253,8 @@
     "subtitle": "Kompaniya maʼlumotlari, jamoa va integratsiyalar.",
     "usageHint": "Har bir yuklangan yozuvning davomiyligi shu hisobdan yechiladi. Limit tugasa, yangi yozuvlar qabul qilinmaydi.",
     "tariffHint": "Tarifni oʻzgartirish uchun qoʻllab-quvvatlash xizmatiga yozing.",
-    "companyHint": "Bu maʼlumotlarni faqat qoʻllab-quvvatlash xizmati oʻzgartira oladi."
+    "companyHint": "Bu maʼlumotlarni faqat qoʻllab-quvvatlash xizmati oʻzgartira oladi.",
+    "usageUnlimited": "{used} soat sarflandi · cheksiz tarif"
   },
   "errors": {
     "limitTitle": "Oylik limit tugadi",

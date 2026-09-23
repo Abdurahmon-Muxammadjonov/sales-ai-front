@@ -401,6 +401,10 @@ function apiReason(
       return t("companyNotFound");
     case "too_large":
       return t("fileTooLarge");
+    case "invalid_request":
+      return t("invalidRequest");
+    case "not_configured":
+      return t("notConfigured");
     case "upstream":
       return t("upstream");
     case "network":

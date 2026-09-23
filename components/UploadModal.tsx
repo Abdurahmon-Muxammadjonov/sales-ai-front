@@ -351,6 +351,10 @@ function errorSentence(
       return t("fileType");
     case "too_large":
       return t("fileTooLarge");
+    case "invalid_request":
+      return t("invalidRequest");
+    case "not_configured":
+      return t("notConfigured");
     case "limit":
       return t("limitTitle");
     case "not_found":

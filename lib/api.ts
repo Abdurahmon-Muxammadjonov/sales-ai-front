@@ -36,6 +36,8 @@ export type ApiErrorKind =
   | "limit"
   | "not_found"
   | "too_large"
+  | "invalid_request"
+  | "not_configured"
   | "server"
   | "network"
   | "upstream"
@@ -60,6 +62,9 @@ function kindForStatus(status: number): ApiErrorKind {
   if (status === 402) return "limit";
   if (status === 404) return "not_found";
   if (status === 413) return "too_large";
+  // FastAPI's validation failure. In this API it means a required form field
+  // was absent, and in practice that field is company_id.
+  if (status === 422) return "invalid_request";
   if (status >= 500) return "server";
   return "unknown";
 }
@@ -103,8 +108,11 @@ async function isApiReachable(): Promise<boolean> {
   }
 }
 
+/** Set at build time; a deployment that forgot it must say so, not guess. */
+export const apiConfigured = Boolean(BASE);
+
 function requireBase(): string {
-  if (!BASE) throw new ApiError("unknown", 0);
+  if (!BASE) throw new ApiError("not_configured", 0);
   return BASE;
 }
 
